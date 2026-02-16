@@ -1,0 +1,19 @@
+{{ define "main" }}
+<div class="page-header">
+  <span class="page-header-number">01</span>
+  <h1 class="page-header-title">Blog</h1>
+  <span class="page-header-count">{{ len .Pages }} posts</span>
+</div>
+<div class="post-list">
+  {{ range .Pages.ByDate.Reverse }}
+  <article class="post-card">
+    <a href="{{ .Permalink }}" class="post-card-link">
+      <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "2006.01.02" }}</time>
+      <h2>{{ .Title }}</h2>
+      <p>{{ .Summary | plainify | truncate 100 }}</p>
+      <span class="post-arrow">&rarr;</span>
+    </a>
+  </article>
+  {{ end }}
+</div>
+{{ end }}

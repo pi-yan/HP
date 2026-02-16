@@ -1,0 +1,26 @@
+{{ define "main" }}
+<article class="work-single">
+  <header class="post-header">
+    <div class="post-header-meta">
+      <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "2006" }}</time>
+      <span class="post-header-sep">/</span>
+      <span>Works</span>
+    </div>
+    <h1>{{ .Title }}</h1>
+  </header>
+  {{ with .Params.image }}
+  <div class="work-image">
+    <img src="{{ . }}" alt="{{ $.Title }}">
+  </div>
+  {{ end }}
+  <div class="post-content">
+    {{ .Content }}
+  </div>
+  <nav class="post-nav">
+    <a href="/works/">
+      <span class="post-nav-arrow">&larr;</span>
+      <span>Back to Index</span>
+    </a>
+  </nav>
+</article>
+{{ end }}

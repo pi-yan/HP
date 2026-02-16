@@ -1,0 +1,26 @@
+{{ define "main" }}
+<div class="page-header">
+  <span class="page-header-number">02</span>
+  <h1 class="page-header-title">Works</h1>
+  <span class="page-header-count">{{ len .Pages }} pieces</span>
+</div>
+<div class="works-grid">
+  {{ range .Pages.ByDate.Reverse }}
+  <a href="{{ .Permalink }}" class="work-card">
+    {{ with .Params.image }}
+    <div class="work-card-img">
+      <img src="{{ . }}" alt="{{ $.Title }}" loading="lazy">
+    </div>
+    {{ else }}
+    <div class="work-card-img work-card-placeholder">
+      <span>{{ $.Title }}</span>
+    </div>
+    {{ end }}
+    <div class="work-card-info">
+      <span class="work-card-title">{{ .Title }}</span>
+      <span class="work-card-date">{{ .Date.Format "2006" }}</span>
+    </div>
+  </a>
+  {{ end }}
+</div>
+{{ end }}

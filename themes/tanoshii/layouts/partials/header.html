@@ -1,0 +1,13 @@
+<header class="site-header">
+  <div class="header-inner">
+    <a href="/" class="site-title" data-text="{{ .Site.Title }}">{{ .Site.Title }}</a>
+    <nav class="site-nav">
+      {{ range .Site.Menus.main }}
+        <a href="{{ .URL }}" class="nav-link{{ if $.IsMenuCurrent "main" . }} active{{ end }}">
+          <span class="nav-index">{{ .Weight | printf "%02d" }}</span>
+          <span class="nav-name">{{ .Name }}</span>
+        </a>
+      {{ end }}
+    </nav>
+  </div>
+</header>

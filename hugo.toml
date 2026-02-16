@@ -1,0 +1,26 @@
+baseURL = 'https://pi-yan.github.io/HP/'
+languageCode = 'ja'
+title = 'たのしいはなし'
+theme = 'tanoshii'
+
+[params]
+  description = 'ブログと作品のサイト'
+
+[menus]
+  [[menus.main]]
+    name = 'トップ'
+    url = '/'
+    weight = 1
+  [[menus.main]]
+    name = 'ブログ'
+    url = '/blog/'
+    weight = 2
+  [[menus.main]]
+    name = '作品'
+    url = '/works/'
+    weight = 3
+
+[markup]
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = true

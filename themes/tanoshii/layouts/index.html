@@ -1,0 +1,65 @@
+{{ define "main" }}
+<section class="hero">
+  <div class="hero-inner">
+    <p class="hero-label">Personal Website</p>
+    <h1 class="hero-title">
+      <span class="hero-line">たのしい</span>
+      <span class="hero-line hero-line--indent">はなし<span class="hero-dot">.</span></span>
+    </h1>
+    <div class="hero-meta">
+      <span>Blog & Works</span>
+      <span class="hero-divider"></span>
+      <span>{{ now.Year }}</span>
+    </div>
+  </div>
+</section>
+
+<section class="home-section" id="blog">
+  <div class="section-label">
+    <span class="section-number">01</span>
+    <span class="section-name">Blog</span>
+    <span class="section-line"></span>
+    <a href="/blog/" class="section-link">All Posts &rarr;</a>
+  </div>
+  <div class="post-list">
+    {{ range first 5 (where .Site.RegularPages "Section" "blog") }}
+    <article class="post-card">
+      <a href="{{ .Permalink }}" class="post-card-link">
+        <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "2006.01.02" }}</time>
+        <h3>{{ .Title }}</h3>
+        <p>{{ .Summary | plainify | truncate 100 }}</p>
+        <span class="post-arrow">&rarr;</span>
+      </a>
+    </article>
+    {{ end }}
+  </div>
+</section>
+
+<section class="home-section" id="works">
+  <div class="section-label">
+    <span class="section-number">02</span>
+    <span class="section-name">Works</span>
+    <span class="section-line"></span>
+    <a href="/works/" class="section-link">All Works &rarr;</a>
+  </div>
+  <div class="works-grid">
+    {{ range first 6 (where .Site.RegularPages "Section" "works") }}
+    <a href="{{ .Permalink }}" class="work-card">
+      {{ with .Params.image }}
+      <div class="work-card-img">
+        <img src="{{ . }}" alt="{{ $.Title }}" loading="lazy">
+      </div>
+      {{ else }}
+      <div class="work-card-img work-card-placeholder">
+        <span>{{ $.Title }}</span>
+      </div>
+      {{ end }}
+      <div class="work-card-info">
+        <span class="work-card-title">{{ .Title }}</span>
+        <span class="work-card-date">{{ .Date.Format "2006" }}</span>
+      </div>
+    </a>
+    {{ end }}
+  </div>
+</section>
+{{ end }}

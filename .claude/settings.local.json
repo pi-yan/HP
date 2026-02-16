@@ -1,0 +1,18 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(hugo version:*)",
+      "Bash(hugo new:*)",
+      "Bash(hugo:*)",
+      "Bash(curl:*)",
+      "WebFetch(domain:www.tanohana.com)",
+      "Bash(find:*)",
+      "Bash(gh auth status:*)",
+      "Bash(brew install:*)",
+      "Bash(git init:*)",
+      "Bash(git branch:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)"
+    ]
+  }
+}
