@@ -1,6 +1,6 @@
 ---
 title: "Mask"
 date: 2026-01-05
-image: "/images/works/IMG_0971.PNG"
+image: "images/works/IMG_0971.PNG"
 draft: false
 ---
