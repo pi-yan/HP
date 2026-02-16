@@ -9,7 +9,7 @@
   <a href="{{ .Permalink }}" class="work-card">
     {{ with .Params.image }}
     <div class="work-card-img">
-      <img src="{{ . }}" alt="{{ $.Title }}" loading="lazy">
+      <img src="{{ . | relURL }}" alt="{{ $.Title }}" loading="lazy">
     </div>
     {{ else }}
     <div class="work-card-img work-card-placeholder">
