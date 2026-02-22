@@ -12,12 +12,12 @@ theme = 'tanoshii'
     url = '/'
     weight = 1
   [[menus.main]]
-    name = 'ブログ'
-    url = '/blog/'
-    weight = 2
-  [[menus.main]]
     name = '作品'
     url = '/works/'
+    weight = 2
+  [[menus.main]]
+    name = 'ブログ'
+    url = '/blog/'
     weight = 3
 
 [markup]

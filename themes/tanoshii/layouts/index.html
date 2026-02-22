@@ -14,30 +14,9 @@
   </div>
 </section>
 
-<section class="home-section" id="blog">
-  <div class="section-label">
-    <span class="section-number">01</span>
-    <span class="section-name">Blog</span>
-    <span class="section-line"></span>
-    <a href="{{ "blog/" | relURL }}" class="section-link">All Posts &rarr;</a>
-  </div>
-  <div class="post-list">
-    {{ range first 5 (where .Site.RegularPages "Section" "blog") }}
-    <article class="post-card">
-      <a href="{{ .Permalink }}" class="post-card-link">
-        <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "2006.01.02" }}</time>
-        <h3>{{ .Title }}</h3>
-        <p>{{ .Summary | plainify | truncate 100 }}</p>
-        <span class="post-arrow">&rarr;</span>
-      </a>
-    </article>
-    {{ end }}
-  </div>
-</section>
-
 <section class="home-section" id="works">
   <div class="section-label">
-    <span class="section-number">02</span>
+    <span class="section-number">01</span>
     <span class="section-name">Works</span>
     <span class="section-line"></span>
     <a href="{{ "works/" | relURL }}" class="section-link">All Works &rarr;</a>
@@ -59,6 +38,27 @@
         <span class="work-card-date">{{ .Date.Format "2006" }}</span>
       </div>
     </a>
+    {{ end }}
+  </div>
+</section>
+
+<section class="home-section" id="blog">
+  <div class="section-label">
+    <span class="section-number">02</span>
+    <span class="section-name">Blog</span>
+    <span class="section-line"></span>
+    <a href="{{ "blog/" | relURL }}" class="section-link">All Posts &rarr;</a>
+  </div>
+  <div class="post-list">
+    {{ range first 5 (where .Site.RegularPages "Section" "blog") }}
+    <article class="post-card">
+      <a href="{{ .Permalink }}" class="post-card-link">
+        <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "2006.01.02" }}</time>
+        <h3>{{ .Title }}</h3>
+        <p>{{ .Summary | plainify | truncate 100 }}</p>
+        <span class="post-arrow">&rarr;</span>
+      </a>
+    </article>
     {{ end }}
   </div>
 </section>
