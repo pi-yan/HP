@@ -805,7 +805,7 @@ body::before {
   }
 
   .works-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr 1fr;
   }
 
   .post-header h1 {
