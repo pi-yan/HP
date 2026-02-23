@@ -740,6 +740,10 @@ body::before {
     display: none;
   }
 
+  .hero {
+    min-height: 50vh;
+  }
+
   .hero-line {
     font-size: clamp(2.5rem, 14vw, 5rem);
   }
