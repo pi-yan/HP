@@ -1,6 +1,6 @@
 ---
 title: "Hand"
 date: 2026-01-01
-image: "images/works/IMG_0789.PNG"
+image: "images/works/IMG_0789.jpg"
 draft: false
 ---
