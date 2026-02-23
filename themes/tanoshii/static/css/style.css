@@ -741,7 +741,7 @@ body::before {
   }
 
   .hero {
-    min-height: 50vh;
+    min-height: 75vh;
   }
 
   .hero-line {
