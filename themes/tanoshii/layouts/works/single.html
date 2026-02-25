@@ -77,7 +77,8 @@ const camera = new THREE.PerspectiveCamera(45, container.clientWidth / container
 camera.position.set(0, 0, 3);
 
 // Renderer
-const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
+const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, preserveDrawingBuffer: true });
+window.__viewer3d = { renderer, get scene() { return scene; }, get camera() { return camera; } };
 renderer.setPixelRatio(window.devicePixelRatio);
 renderer.setSize(container.clientWidth, container.clientHeight);
 renderer.shadowMap.enabled = true;
