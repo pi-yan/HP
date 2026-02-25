@@ -1,4 +1,5 @@
 {{ define "main" }}
+{{ $has3d := .Params.model3d }}
 <article class="work-single">
   <header class="post-header">
     <div class="post-header-meta">
@@ -8,11 +9,35 @@
     </div>
     <h1>{{ .Title }}</h1>
   </header>
-  {{ with .Params.image }}
+
+  {{ if $has3d }}
+  <div class="work-viewer-3d">
+    <div class="viewer-3d-container" id="viewer3d" data-model="{{ .Params.model3d | relURL }}">
+      <div class="viewer-loading" id="viewerLoading">
+        <span class="viewer-loading-text">Loading 3D Model...</span>
+      </div>
+      <canvas id="viewer3dCanvas"></canvas>
+    </div>
+    <div class="viewer-controls-hint">
+      <span>drag: rotate</span>
+      <span class="sep">·</span>
+      <span>scroll: zoom</span>
+      <span class="sep">·</span>
+      <span>right drag: pan</span>
+    </div>
+  </div>
+  {{ else if .Params.image }}
   <div class="work-image">
-    <img src="{{ . | relURL }}" alt="{{ $.Title }}">
+    <img src="{{ .Params.image | relURL }}" alt="{{ .Title }}">
   </div>
   {{ end }}
+
+  {{ if and .Params.image $has3d }}
+  <div class="work-image">
+    <img src="{{ .Params.image | relURL }}" alt="{{ .Title }}">
+  </div>
+  {{ end }}
+
   <div class="post-content">
     {{ .Content }}
   </div>
@@ -23,4 +48,141 @@
     </a>
   </nav>
 </article>
+
+{{ if $has3d }}
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js",
+    "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/"
+  }
+}
+</script>
+<script type="module">
+import * as THREE from 'three';
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+
+const container = document.getElementById('viewer3d');
+const canvas = document.getElementById('viewer3dCanvas');
+const loading = document.getElementById('viewerLoading');
+const modelUrl = container.dataset.model;
+
+// Scene
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(0x111111);
+
+// Camera
+const camera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.01, 1000);
+camera.position.set(0, 0, 3);
+
+// Renderer
+const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
+renderer.setPixelRatio(window.devicePixelRatio);
+renderer.setSize(container.clientWidth, container.clientHeight);
+renderer.shadowMap.enabled = true;
+renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure = 1.2;
+
+// Lights
+const ambientLight = new THREE.AmbientLight(0xffffff, 0.4);
+scene.add(ambientLight);
+
+const dirLight1 = new THREE.DirectionalLight(0xffffff, 2.0);
+dirLight1.position.set(5, 8, 5);
+dirLight1.castShadow = true;
+scene.add(dirLight1);
+
+const dirLight2 = new THREE.DirectionalLight(0xaabbff, 0.8);
+dirLight2.position.set(-5, 2, -5);
+scene.add(dirLight2);
+
+const fillLight = new THREE.DirectionalLight(0xffeedd, 0.5);
+fillLight.position.set(0, -5, 5);
+scene.add(fillLight);
+
+// Controls
+const controls = new OrbitControls(camera, renderer.domElement);
+controls.enableDamping = true;
+controls.dampingFactor = 0.05;
+controls.minDistance = 0.1;
+controls.maxDistance = 100;
+controls.autoRotate = true;
+controls.autoRotateSpeed = 0.5;
+
+// Stop auto-rotate on interaction
+controls.addEventListener('start', () => { controls.autoRotate = false; });
+
+// Load model
+const loader = new GLTFLoader();
+loader.load(
+  modelUrl,
+  (gltf) => {
+    const model = gltf.scene;
+
+    // Enable shadows
+    model.traverse((node) => {
+      if (node.isMesh) {
+        node.castShadow = true;
+        node.receiveShadow = true;
+      }
+    });
+
+    scene.add(model);
+
+    // Center and scale after adding to scene so world transforms are applied
+    const box = new THREE.Box3().setFromObject(model);
+    const center = box.getCenter(new THREE.Vector3());
+    const size = box.getSize(new THREE.Vector3());
+    const maxDim = Math.max(size.x, size.y, size.z);
+    const scale = 2.0 / maxDim;
+
+    model.scale.setScalar(scale);
+
+    // Recompute after scaling and re-center
+    model.updateMatrixWorld(true);
+    const box2 = new THREE.Box3().setFromObject(model);
+    const center2 = box2.getCenter(new THREE.Vector3());
+    model.position.set(-center2.x, -center2.y, -center2.z);
+
+    // Camera distance based on model size
+    const dist = 2.5;
+    camera.position.set(0, 0, dist);
+    controls.target.set(0, 0, 0);
+    controls.update();
+
+    loading.style.opacity = '0';
+    setTimeout(() => { loading.style.display = 'none'; }, 400);
+  },
+  (progress) => {
+    if (progress.total > 0) {
+      const pct = Math.round((progress.loaded / progress.total) * 100);
+      document.querySelector('.viewer-loading-text').textContent = `Loading... ${pct}%`;
+    }
+  },
+  (error) => {
+    console.error('3D model load error:', error);
+    document.querySelector('.viewer-loading-text').textContent = 'Failed to load model';
+  }
+);
+
+// Resize handler
+window.addEventListener('resize', () => {
+  const w = container.clientWidth;
+  const h = container.clientHeight;
+  camera.aspect = w / h;
+  camera.updateProjectionMatrix();
+  renderer.setSize(w, h);
+});
+
+// Animation loop
+function animate() {
+  requestAnimationFrame(animate);
+  controls.update();
+  renderer.render(scene, camera);
+}
+animate();
+</script>
+{{ end }}
 {{ end }}
