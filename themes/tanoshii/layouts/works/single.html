@@ -32,11 +32,6 @@
   </div>
   {{ end }}
 
-  {{ if and .Params.image $has3d }}
-  <div class="work-image">
-    <img src="{{ .Params.image | relURL }}" alt="{{ .Title }}">
-  </div>
-  {{ end }}
 
   <div class="post-content">
     {{ .Content }}
