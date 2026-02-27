@@ -21,7 +21,7 @@
     <a href="{{ "works/" | relURL }}" class="section-link">All Works &rarr;</a>
   </div>
   <div class="works-grid">
-    {{ range first 6 (where .Site.RegularPages "Section" "works") }}
+    {{ range first 6 ((where .Site.RegularPages "Section" "works").ByDate.Reverse) }}
     <a href="{{ .Permalink }}" class="work-card">
       {{ with .Params.image }}
       <div class="work-card-img">
