@@ -6,14 +6,17 @@
 </div>
 <div class="works-grid">
   {{ range .Pages.ByDate.Reverse }}
+  {{ $work := . }}
   <a href="{{ .Permalink }}" class="work-card">
     {{ with .Params.image }}
     <div class="work-card-img">
-      <img src="{{ . | relURL }}" alt="{{ $.Title }}" loading="lazy">
+      <img src="{{ . | relURL }}" alt="{{ $work.Title }}" loading="lazy">
+      {{ if $work.Params.model3d }}<span class="work-card-tag">3D</span>{{ end }}
     </div>
     {{ else }}
     <div class="work-card-img work-card-placeholder">
-      <span>{{ $.Title }}</span>
+      <span>{{ $work.Title }}</span>
+      {{ if $work.Params.model3d }}<span class="work-card-tag">3D</span>{{ end }}
     </div>
     {{ end }}
     <div class="work-card-info">
