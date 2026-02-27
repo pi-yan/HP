@@ -632,16 +632,28 @@ body::before {
 
 .work-card-badge {
   position: absolute;
-  top: 0.5rem;
-  right: 0.5rem;
+  top: 0.6rem;
+  right: 0.6rem;
+  display: flex;
+  align-items: center;
+  gap: 0.35em;
   font-family: var(--mono);
-  font-size: 0.55rem;
+  font-size: 0.5rem;
   font-weight: 700;
-  letter-spacing: 0.1em;
-  color: var(--bg);
-  background: var(--text);
-  padding: 0.2em 0.5em;
+  letter-spacing: 0.18em;
+  color: rgba(212, 212, 212, 0.7);
+  background: rgba(5, 5, 5, 0.55);
+  border: 1px solid rgba(212, 212, 212, 0.2);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  padding: 0.3em 0.6em;
   pointer-events: none;
+  transition: color 0.3s, border-color 0.3s;
+}
+
+.work-card:hover .work-card-badge {
+  color: #fff;
+  border-color: rgba(212, 212, 212, 0.55);
 }
 
 /* ============================================================
